@@ -1,0 +1,42 @@
+[
+  {
+    "author": "James Clear",
+    "title": "Atomic Habits",
+    "available": true,
+    "genre": "Self Help",
+    "id": 1,
+    "year": 2018
+  },
+  {
+    "author": "Paulo Coelho",
+    "title": "The Alchemist",
+    "available": true,
+    "genre": "Fiction",
+    "id": 2,
+    "year": 1988
+  },
+  {
+    "author": "Robert C. Martin",
+    "title": "Clean Code",
+    "available": true,
+    "genre": "Programming",
+    "id": 3,
+    "year": 2008
+  },
+  {
+    "author": "Morgan Housel",
+    "title": "The Psychology of Money",
+    "available": false,
+    "genre": "Finance",
+    "id": 4,
+    "year": 2020
+  },
+  {
+    "author": "Mandal Tech",
+    "title": "Bokunpico",
+    "available": false,
+    "genre": "Corruption",
+    "id": 5,
+    "year": 2001
+  }
+]
