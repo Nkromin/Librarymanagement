@@ -1,13 +1,23 @@
 from fastapi import FastAPI
 from routes.book_route import book_router
+from sql.database import Base, engine  # <-- important
 
-app = FastAPI(title = "Simple book management api using FastAPI & pandas", version = "1.0.0")
+app = FastAPI(
+    title="Simple Book Management API using FastAPI & SQLAlchemy",
+    version="1.0.0"
+)
 
-app.include_router(book_router)
+# 🛠️ Create tables in the PostgreSQL database on startup
+Base.metadata.create_all(bind=engine)
+
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the book Management API use/docs"}
+    return {"message": "Welcome to the Book Management API. Visit /docs to explore!"}
+
+
+# Register routes
+app.include_router(book_router)
 
 
 

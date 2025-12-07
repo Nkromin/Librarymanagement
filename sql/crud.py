@@ -15,16 +15,20 @@ def create_book(db: Session, book: dict):
     db.refresh(new_book)
     return new_book
 
-def update(db:Session, book_id:int, book:dict):
-    book = get_by_id(db, book_id)
-    if not book:
+def update(db: Session, book_id: int, data: dict):
+    existing = get_by_id(db, book_id)
+    if not existing:
         return None
-    for key, value in book.items():
-        setattr(book, key, value)
+
+    # apply only keys provided in the incoming data dict
+    for key, value in data.items():
+        # avoid setting attributes that don't exist on the model
+        if hasattr(existing, key):
+            setattr(existing, key, value)
 
     db.commit()
-    db.refresh(book)
-    return book
+    db.refresh(existing)
+    return existing
 
 def delete(db: Session, book_id: int):
     book = get_by_id(db, book_id)

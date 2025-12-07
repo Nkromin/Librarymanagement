@@ -1,75 +1,39 @@
-version: '3.9'
-
 services:
   postgres:
     image: postgres:16
-    container_name: bw_postgres
+    container_name: library_postgres
     restart: always
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: bloodwork
+      POSTGRES_USER: libraryuser
+      POSTGRES_PASSWORD: librarypass
+      POSTGRES_DB: librarydb
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U libraryuser -d librarydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: bw_pgadmin
+  library_api:
+    build: .
+    container_name: library_api
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@local.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "5050:80"
     depends_on:
-      - postgres
-
-  mongo:
-    image: mongo:7
-    container_name: bw_mongo
-    restart: always
+      postgres:
+        condition: service_healthy
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
+      POSTGRES_USER: libraryuser
+      POSTGRES_PASSWORD: librarypass
+      POSTGRES_DB: librarydb
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      DATABASE_URL: "postgresql://libraryuser:librarypass@postgres:5432/librarydb"
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
-  mongo_express:
-    image: mongo-express
-    container_name: bw_mongo_express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin123
-      ME_CONFIG_MONGODB_SERVER: mongo
-    depends_on:
-      - mongo
-
-  redis:
-    image: redis:7
-    container_name: bw_redis
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-  redis_insight:
-    image: redislabs/redisinsight:latest
-    container_name: bw_redis_insight
-    restart: always
-    ports:
-      - "5540:5540"
-    depends_on:
-      - redis
+      - "8000:8000"
 
 volumes:
   postgres_data:
-  mongo_data:
-  redis_data:
+
