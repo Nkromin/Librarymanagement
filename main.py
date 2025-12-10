@@ -11,6 +11,7 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 
+
 @app.get("/")
 def home():
     return {"message": "Welcome to the Book Management API. Visit /docs to explore!"}
@@ -19,6 +20,6 @@ def home():
 # Register routes
 app.include_router(book_router)
 
-
+app.include_router(anime_router)
 
 
