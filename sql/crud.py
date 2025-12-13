@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from .models import Book,Anime
 
+# ---------------- BOOK CRUD ----------------
 
 def get_all_books(db: Session):
     return db.query(Book).all()
@@ -19,7 +20,6 @@ def update_book_by_id(db: Session, book_id: int, data: dict):
     if not book:
         return None
 
-    # apply only keys provided in the incoming data dict
     for key, value in data.items():
             setattr(book, key, value)
 

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from routes.book_route import book_router
 from routes.anime_route import anime_router
-from sql.database import Base, engine
+from sql.database import Base, engine  # <-- important
 
 app = FastAPI(
     title="Simple Book Management API using FastAPI & SQLAlchemy",

@@ -31,7 +31,7 @@ It supports CRUD operations and includes automatic API documentation using Swagg
 ### 1️⃣ Clone the repository
 
 ```sh
-git clone https://github.com/<your-username>/LibraryManagement.git
+git clone (https://github.com/zeropronate/LibraryManagement.git)
 cd LibraryManagement
 ```
 

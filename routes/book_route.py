@@ -18,7 +18,11 @@ def single_book(book_id: int,db = Depends(get_db)):
 
 @book_router.post("/", summary="Create a new book")
 def add_book(data: dict,db = Depends(get_db)):
-    return create_book(db,data)
+    try:
+        book = create_book(db,data)
+        return book
+    except Exception as e:
+        return {"error": str(e)}
 
 @book_router.put("/{book_id}", summary="Update a book")
 def modify_book(book_id: int, data: dict,db = Depends(get_db)):
@@ -36,7 +40,4 @@ def remove_book(book_id: int,db = Depends(get_db)):
         return {"message": "Book deleted successfully"}
     else:
         return {"error": "Book not found"}
-
-
-
 
